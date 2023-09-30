@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SystemLogin\LoginController;
 use App\Http\Controllers\SystemRegistration\PatientRegistrationController;
+use App\Http\Middleware\CheckTokenValidity;
+
 
 
 /*
@@ -17,14 +19,10 @@ use App\Http\Controllers\SystemRegistration\PatientRegistrationController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
 Route :: post("login", [LoginController::class, 'GetLoginInfo']);
-
-
 Route :: post("patient/registration", [PatientRegistrationController::class, 'CreatePatient']);
 
+Route::middleware(CheckTokenValidity::class)->group(function () {
+    
+});
 

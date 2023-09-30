@@ -4,6 +4,11 @@ namespace App\Http\Controllers\SystemRegistration;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\doctor;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 
 class DoctorRegistrationController extends Controller
 {
@@ -51,6 +56,10 @@ class DoctorRegistrationController extends Controller
             'confirm_password.regex'=>'Confirm Password must contain at least one uppercase, one lowercase letter, one number and one special character',
             'confirm_password.same'=>'Password and Confirm Password does not match',
 
+            'specialization.required' => 'Please enter a Specialization',
+
+            'hospitalid.required' => 'Please enter hospital id.'
+
         ];
 
         //Validation for user registration
@@ -63,8 +72,50 @@ class DoctorRegistrationController extends Controller
             'address'=>'required|string|max:100',
             'password'=>'required|min:8|max:100|regex:/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,})$/',
             'confirm_password'=>'required|min:8|max:100|regex:/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,})$/|same:password',
+            'specialization' => 'required',
+            'hospitalid' => 'required'
         ];
 
-        
+        $validationCheck = Validator::make($DoctorData->all(), $rules, $validationMessages);
+
+        // Check if validation fails
+        if ($validationCheck->fails()) 
+        {
+            return response()->json(['errors' => $validationCheck->errors()]);
+        }
+
+        $newuser = new User([
+            'first_name' => $DoctorData->input('firstName'),
+            'last_name' => $DoctorData->input('lastName'),
+            'phone' => $DoctorData->input('phone'),
+            'gender' => $DoctorData->input('gender'),
+            'email' => $DoctorData->input('email'),
+            'address' => $DoctorData->input('address'),
+            'password' => Hash::make($DoctorData->input('password')),
+            'role' => 2
+        ]);
+
+        $newDoctor = new doctor([
+            'specialization' => $DoctorData->input('specialization'),
+            'hospitalid' => $DoctorData->input('hospitalid')
+        ]);
+
+        if ($newDoctor->save() && $newuser->save()) 
+        {
+            // Insertion was successful
+            return response()->json([
+                'user' => $newuser,
+                'doctor' => $newDoctor,
+            ]);
+        } 
+        else 
+        {
+            // Insertion failed
+            $Error = [
+                'message' => 'Registration failed'
+            ];
+            return response()->json($Error);
+        } 
+
     }
 }

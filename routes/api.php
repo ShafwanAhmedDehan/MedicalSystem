@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SystemLogin\LoginController;
 use App\Http\Controllers\SystemRegistration\PatientRegistrationController;
-
+use App\Http\Controllers\SystemVerification\EmailVerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +25,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route :: post("login", [LoginController::class, 'GetLoginInfo']);
 
 
-Route :: post("patient/registration", [PatientRegistrationController::class, 'CreatePatient']);
-
-
+Route :: post("patient/registration", [PatientRegistrationController::class, 'getRegister']);
+Route :: get("/auth/verify-email/{verification_token}", [EmailVerificationController::class, 'verifyEmail'])->name('verify_email');
+                                                       

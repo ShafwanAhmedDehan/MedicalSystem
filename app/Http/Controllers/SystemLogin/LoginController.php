@@ -44,7 +44,7 @@ class LoginController extends Controller
         $User = User :: where('email', $loginValues-> email)->first();
 
         //user found or not and match the password
-        if ($User != null && (Hash :: check(($loginValues-> password),($user -> Password))))
+        if ($User != null && (Hash :: check(($loginValues-> password),($User -> Password))))
         {
             //login Passsed
             //token creation

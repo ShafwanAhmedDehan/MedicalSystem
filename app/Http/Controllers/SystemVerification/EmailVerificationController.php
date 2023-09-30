@@ -14,49 +14,39 @@ use Illuminate\Validation\Rule;
 class EmailVerificationController extends Controller
 {
     public function verifyEmail($verificationToken)
-    {
-        $emailVerification = EmailVerification::where('token', $verificationToken)->first();
+{
+    $emailVerification = EmailVerification::where('token', $verificationToken)->first();
 
-        if (!$emailVerification) {
-            return false;
-        }
-        else {
-            $emailVerification->update([
-                'email_verified_at' => Carbon::now(),
-            ]);
-            $emailVerification->save();
-            return true;
-        }
+    if (!$emailVerification) {
+        return false;
     }
+
+    if ($emailVerification->email_verified_at) {
+        return false;
+    }
+
+    $user = User::where('email', $emailVerification->email)->first();
+
+    if ($user) {
+        $emailVerification->update([
+            'email_verified_at' => Carbon::now(),
+        ]);
+
+        $user->update([
+            'verifystatus' => 1,
+        ]);
+
+        //return true;
+        return response()->json([
+
+            'message' => 'Verification Successful',
+            //'user' => $user,
+        ]);
+    }
+
+    return false;
+}
+
 }
 
 
-// public function verifyEmail($verificationToken)
-// {
-//     $emailVerification = EmailVerification::where('token', $verificationToken)->first();
-
-//     if (!$emailVerification) {
-//         return false;
-//         return redirect)-›route (getRegister')-›with('error', 'Invalid URL');
-//     }
-
-//     if ($emailVerification->email_verified_at) {
-//         return false;
-//     }
-
-//     $user = User::where('email', $emailVerification->email)->first();
-
-//     if ($user) {
-//         $emailVerification->update([
-//             'email_verified_at' => Carbon::now(),
-//         ]);
-
-//         $user->update([
-//             'verifystatus' => 1,
-//         ]);
-
-//         return true;
-//     }
-
-//     return false;
-// }

@@ -18,7 +18,11 @@ class EmailVerification extends Model
         'email',
         'token',
         'token_created_at',
+        'email_verified_at',
     ];
+
+    
+
 
     /**
      * The attributes that should be hidden for serialization.

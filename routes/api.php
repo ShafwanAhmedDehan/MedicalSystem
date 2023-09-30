@@ -6,6 +6,7 @@ use App\Http\Controllers\SystemLogin\LoginController;
 use App\Http\Controllers\SystemRegistration\PatientRegistrationController;
 use App\Http\Middleware\CheckTokenValidity;
 use App\Http\Controllers\Patient\PatientInfoController;
+use App\Http\Controllers\SystemRegistration\HospitalRegistrationController;
 
 
 
@@ -25,5 +26,6 @@ Route :: post("patient/registration", [PatientRegistrationController::class, 'Cr
 
 Route::middleware(CheckTokenValidity::class)->group(function () {
     Route :: get("patient/about/{uid}", [PatientInfoController::class, 'GetUserById']);
+    Route :: post("hospital/registration", [HospitalRegistrationController::class, 'CreateHospital']);
 });
 

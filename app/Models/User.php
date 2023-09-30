@@ -28,7 +28,8 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'password',
         'role',
         'address',
-        'verifystatus',
+        'verifystatus'
+
     ];
 
     // Implement the methods required by JWTSubject interface

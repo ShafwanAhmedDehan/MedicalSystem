@@ -44,7 +44,9 @@ class LoginController extends Controller
         $User = User :: where('email', $loginValues-> email)->first();
 
         //user found or not and match the password
-        if ($User != null && (Hash :: check(($loginValues-> password),($User -> Password))))
+
+        if ($User != null && (Hash :: check(($loginValues-> password),($User -> Password))) && (($User -> verifystatus)==1))
+
         {
             //login Passsed
             //token creation
@@ -65,6 +67,14 @@ class LoginController extends Controller
                 'user' => $User,
                 'token' => $token,
             ]);
+        }
+
+        elseif (($User -> verifystatus) == 0)
+        {
+            $Error = [
+                'message' => 'ID is not verified'
+            ];
+            return response()->json($Error);
         }
         
         else

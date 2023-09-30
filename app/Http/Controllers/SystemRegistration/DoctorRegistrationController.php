@@ -91,8 +91,9 @@ class DoctorRegistrationController extends Controller
             'gender' => $DoctorData->input('gender'),
             'email' => $DoctorData->input('email'),
             'address' => $DoctorData->input('address'),
+            'verifystatus' => 1,
             'password' => Hash::make($DoctorData->input('password')),
-            'role' => 2
+            'role' => 2,
         ]);
 
         $newDoctor = new doctor([

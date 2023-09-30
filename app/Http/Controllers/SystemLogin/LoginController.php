@@ -7,5 +7,5 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    //hello world login
+    //login controller
 }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->integer('role')->default(0);
+            $table->integer('verifystatus')->default(0);
             $table->timestamps();
         });
     }

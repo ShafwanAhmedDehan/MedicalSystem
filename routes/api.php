@@ -8,7 +8,7 @@ use App\Http\Middleware\CheckTokenValidity;
 use App\Http\Controllers\Patient\PatientInfoController;
 use App\Http\Controllers\SystemRegistration\HospitalRegistrationController;
 use App\Http\Controllers\SystemRegistration\DoctorRegistrationController;
-
+use App\Http\Controllers\SystemVerification\EmailVerificationController;
 
 
 /*
@@ -23,14 +23,19 @@ use App\Http\Controllers\SystemRegistration\DoctorRegistrationController;
 */
 
 Route :: post("login", [LoginController::class, 'GetLoginInfo']);
-Route :: post("patient/registration", [PatientRegistrationController::class, 'CreatePatient']);
-Route :: post("doctor/registration", [DoctorRegistrationController::class, 'CreateDoctor']);
+
 
 
 
 Route::middleware(CheckTokenValidity::class)->group(function () {
     Route :: get("patient/about/{uid}", [PatientInfoController::class, 'GetUserById']);
     Route :: post("hospital/registration", [HospitalRegistrationController::class, 'CreateHospital']);
-   // Route :: post("doctor/registration", [DoctorRegistrationController::class, 'CreateDoctor']);
+    Route :: post("doctor/registration", [DoctorRegistrationController::class, 'CreateDoctor']);
+  
 });
+
+
+Route :: post("patient/registration", [PatientRegistrationController::class, 'getRegister']);
+Route :: get("/auth/verify-email/{verification_token}", [EmailVerificationController::class, 'verifyEmail'])->name('verify_email');
+                                                       
 

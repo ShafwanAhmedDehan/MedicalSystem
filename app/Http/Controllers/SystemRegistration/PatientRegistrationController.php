@@ -4,18 +4,23 @@ namespace App\Http\Controllers\SystemRegistration;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Models\EmailVerification;
+//use Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EmailVerificationMail;
 
 class PatientRegistrationController extends Controller
 {
 
 
     //Use for user registration
-    function CreatePatient(Request $PatientData)
+    function getRegister(Request $PatientData)
     {
         //Validation Message
         $validationMessages = [
@@ -79,7 +84,6 @@ class PatientRegistrationController extends Controller
         if ($validationCheck->fails())
         {
 
-
             return response()->json(['errors' => $validationCheck->errors()], 422);
         }
 
@@ -98,12 +102,38 @@ class PatientRegistrationController extends Controller
 
         if ($newuser->save())
         {
-            // Insertion was successful
-            return response()->json([
-
-                'user' => $newuser,
-
+            $newemailvalidator = new EmailVerification([
+                'token' => Str::random(40),
+                'user_id' => $newuser->id,
+                'name' => $PatientData->input('firstName'),
+                'email' => $PatientData->input('email'),
+                'token_created_at'=>\Carbon\Carbon::now(),
+    
             ]);
+
+            if ($newemailvalidator->save())
+            {
+
+
+                 if(Mail::to ($PatientData->input('email'))->send (new EmaiLVerificationMail($newemailvalidator)))
+                {
+                    return response()->json([
+
+                        'message' => 'Registration successful. Please verify your email.',
+                        'user' => $newuser,
+                    ]);
+                }
+                else
+                {
+                    return response()->json([
+
+                        'message' => 'Somethig went wrong! Registration is successful but Validation Email is not sent.',
+                        'user' => $newuser,
+                    ]);
+                }
+            }
+            // Insertion was successful
+            
         }
         else
         {

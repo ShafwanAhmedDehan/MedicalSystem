@@ -45,11 +45,16 @@ Route :: get("/auth/verify-email/{verification_token}", [EmailVerificationContro
 
 
 
+
+
 Route :: post("doctor/info/update", [DoctorController::class, 'setDoctorInfo']);
 Route :: get("doctor/info/{uid}", [DoctorController::class, 'getDoctorInfoById']);
 Route :: post("doctor/update", [DoctorController::class, 'updateDoctor']);
 Route :: get("doctor/delete/{uid}", [DoctorController::class, 'deleteDoctorById']);
 
 Route :: get("patient/delete/{uid}", [PatientInfoController::class, 'deletePatientById']);
+Route :: post("patient/update", [PatientInfoController::class, 'updatePatient']);
+
+
 
 

@@ -133,6 +133,9 @@ class DoctorController extends Controller
         if (!$doctor) {
             return response()->json(['message' => 'Doctor not found'], 404);
         }
+        if ($doctor->role !== 2) {
+            return response()->json(['message' => 'User is not a Doctor.']);
+        }
         // Validation Message
         $validationMessages = [
             'firstName.required' => 'Please enter your First Name.',

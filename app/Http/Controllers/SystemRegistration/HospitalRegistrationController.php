@@ -16,13 +16,14 @@ class HospitalRegistrationController extends Controller
         //validation message
         $validationMessages = [
             'required' => 'The :attribute field is required.',
+            'unique' => 'The :attribute field is already exist.'
         ];
 
         //validation rules
         $rules = [
             'hospitalname' => 'required',
             'location' => 'required',
-            'adminid' => 'required',
+            'adminid' => 'required|unique:hospitals,adminid',
         ];
 
         $validationCheck = Validator::make($HospitalData->all(), $rules, $validationMessages);

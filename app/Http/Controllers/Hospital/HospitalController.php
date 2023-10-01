@@ -80,4 +80,33 @@ class HospitalController extends Controller
             return response()->json($error, 500);
         }
     }
+
+    //hospital information delete
+    function deleteHospital($hospitalId)
+    {
+        // Find the hospital by ID
+        $hospital = Hospital::find($hospitalId);
+
+        if (!$hospital) {
+            // Hospital not found
+            $error = [
+                'message' => 'Hospital not found'
+            ];
+            return response()->json($error, 404);
+        }
+
+        if ($hospital->delete()) {
+            $error = [
+                'message' => 'Hospital deleted successfully'
+            ];
+            // Deletion was successful
+            return response()->json($error);
+        } else {
+            // Deletion failed
+            $error = [
+                'message' => 'Deletion failed'
+            ];
+            return response()->json($error, 500);
+        }
+    }
 }

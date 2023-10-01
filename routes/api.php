@@ -55,8 +55,9 @@ Route :: get("doctor/delete/{uid}", [DoctorController::class, 'deleteDoctorById'
 Route :: get("patient/delete/{uid}", [PatientInfoController::class, 'deletePatientById']);
 Route :: post("patient/update", [PatientInfoController::class, 'updatePatient']);
 
-//Route :: get("hospital/delete/{adminID}", [HospitalController::class, 'deleteHospitalByAdminId']);
+Route :: get("hospital/delete/{hid}", [HospitalController::class, 'deleteHospital']);
 Route :: post("hospital/update", [HospitalController::class, 'updateHospital']);
+
 
 
 

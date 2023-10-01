@@ -7,45 +7,40 @@ use App\Mail\EmailVerificationMail;
 use App\Models\EmailVerification;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\View\auth;
+
 
 class EmailVerificationController extends Controller
 {
     public function verifyEmail($verificationToken)
-{
-    $emailVerification = EmailVerification::where('token', $verificationToken)->first();
+    {
+        $emailVerification = EmailVerification::where('token', $verificationToken)->first();
 
-    if (!$emailVerification) {
-        return false;
+        if (!$emailVerification) {
+            return view('auth/verification_message')->with('message', 'error');
+        }
+
+        if ($emailVerification->email_verified_at) {
+            return view('auth/verification_message')->with('message', 'already_verified');
+        }
+
+        $user = User::where('email', $emailVerification->email)->first();
+
+        if ($user) {
+            $emailVerification->update([
+                'email_verified_at' => Carbon::now(),
+            ]);
+
+            $user->update([
+                'verifystatus' => 1,
+            ]);
+
+            return view('auth/verification_message')->with('message', 'Verification Successful');
+        }
+
+        return view('auth/verification_message')->with('message', 'error');
     }
-
-    if ($emailVerification->email_verified_at) {
-        return false;
-    }
-
-    $user = User::where('email', $emailVerification->email)->first();
-
-    if ($user) {
-        $emailVerification->update([
-            'email_verified_at' => Carbon::now(),
-        ]);
-
-        $user->update([
-            'verifystatus' => 1,
-        ]);
-
-        //return true;
-        return response()->json([
-
-            'message' => 'Verification Successful',
-            //'user' => $user,
-        ]);
-    }
-
-    return false;
-}
 
 }
 

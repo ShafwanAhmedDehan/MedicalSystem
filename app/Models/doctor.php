@@ -12,7 +12,10 @@ class doctor extends Model
     protected $fillable = [
         'specialization',
         'visitingDay',
-        'hospitalid'
+        'hospitalid',
+        'uid',
+        'visitingTime',
+        'patientcount'
     ];
 
 }

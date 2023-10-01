@@ -96,18 +96,32 @@ class DoctorRegistrationController extends Controller
             'role' => 2,
         ]);
 
-        $newDoctor = new doctor([
-            'specialization' => $DoctorData->input('specialization'),
-            'hospitalid' => $DoctorData->input('hospitalid')
-        ]);
-
-        if ($newDoctor->save() && $newuser->save()) 
+        if ($newuser->save()) 
         {
-            // Insertion was successful
-            return response()->json([
-                'user' => $newuser,
-                'doctor' => $newDoctor,
+            $Duid = $newuser -> id;
+            //doctor info inset in doctor table
+            $newDoctor = new doctor([
+                'specialization' => $DoctorData->input('specialization'),
+                'hospitalid' => $DoctorData->input('hospitalid'),
+                'uid' => $Duid
             ]);
+
+            if($newDoctor -> save())
+            {
+                // Insertion was successful
+                return response()->json([
+                    'user' => $newuser,
+                    'doctor' => $newDoctor,
+                ]);
+            }
+            else
+            {
+                // Insertion failed
+                $Error = [
+                    'message' => 'Doctor table registration failed'
+                ];
+                return response()->json($Error);   
+            }
         } 
         else 
         {
@@ -116,7 +130,7 @@ class DoctorRegistrationController extends Controller
                 'message' => 'Registration failed'
             ];
             return response()->json($Error);
-        } 
+        }
 
     }
 }

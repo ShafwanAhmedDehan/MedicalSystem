@@ -12,7 +12,22 @@ class doctor extends Model
     protected $fillable = [
         'specialization',
         'visitingDay',
-        'hospitalid'
+        'hospitalid',
+        'uid',
+        'visitingTime',
+        'patientcount'
     ];
+
+
+     /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
 
 }

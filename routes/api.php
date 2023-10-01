@@ -38,7 +38,6 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
 });
 
 
-});
 Route::post("admin/registration", [AdminRegistrationController::class, 'CreateAdmin']);
 
 Route :: post("patient/registration", [PatientRegistrationController::class, 'getRegister']);

@@ -9,6 +9,7 @@ use App\Http\Controllers\Patient\PatientInfoController;
 use App\Http\Controllers\SystemRegistration\HospitalRegistrationController;
 use App\Http\Controllers\SystemRegistration\DoctorRegistrationController;
 use App\Http\Controllers\SystemVerification\EmailVerificationController;
+use App\Http\Controllers\Hospital\HospitalController;
 
 
 /*
@@ -29,7 +30,7 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route :: get("patient/about/{uid}", [PatientInfoController::class, 'GetUserById']);
     Route :: post("hospital/registration", [HospitalRegistrationController::class, 'CreateHospital']);
     Route :: post("doctor/registration", [DoctorRegistrationController::class, 'CreateDoctor']);
-  
+    Route :: get("hospital/about/{adminID}", [HospitalController::class, 'getHospitalbyAdminId']);
 });
 
 

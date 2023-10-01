@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $this->call([
             UserTableData::class,
-            //DoctorTableData::class,
+            DoctorTableData::class,
+            HospitalTableData::class,
             //PatientTableData::class,
             //AppointmentTableData::class,
             //PrescriptionTableData::class,

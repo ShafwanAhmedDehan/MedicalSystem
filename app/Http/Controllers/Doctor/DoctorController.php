@@ -238,4 +238,36 @@ class DoctorController extends Controller
             return response()->json(['message' => 'Doctor information update failed']);
         }
     }
+
+    function deleteDoctorById($uid)
+    {
+        // Get user info by id
+        $user = User::where('id', $uid)->first();
+
+        // Check if any user was found
+        if (!$user) {
+            return response()->json(['message' => 'No user found.']);
+        } else {
+            // Check if the user's role is 2 (doctor)
+            if ($user->role !== 2) {
+                return response()->json(['message' => 'User is not a doctor.']);
+            }
+
+            // Find the doctor profile associated with the user
+            $doctorProfile = Doctor::where('uid', $uid)->first();
+
+            // Check if a doctor profile was found
+            if (!$doctorProfile) {
+                return response()->json(['message' => 'No doctor profile found.']);
+            } else {
+                // Delete the doctor info
+                $doctorProfile->delete();
+                // Delete the user
+                $user->delete();
+
+                // If user found and is a doctor, return the user and doctor profile
+                return response()->json(['message' => 'Doctor deleted successfully']);
+            }
+        }
+    }
 }

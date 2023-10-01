@@ -109,4 +109,20 @@ class HospitalController extends Controller
             return response()->json($error, 500);
         }
     }
+
+    //hospital information by hospital id
+    function getHospitalbyId($hospitalId)
+    {
+        //get the hospital of the admin
+        $hospital = hospital::where('id', $hospitalId)
+            ->select('id', 'hospitalname', 'location')
+            ->get();
+
+        if ($hospital->isEmpty()) {
+            return response()->json(['message' => 'No hospital found.']);
+        }
+
+        //if hospital found then it will return
+        return response()->json($hospital);
+    }
 }

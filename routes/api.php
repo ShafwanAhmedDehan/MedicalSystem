@@ -44,3 +44,7 @@ Route :: post("patient/registration", [PatientRegistrationController::class, 'ge
 Route :: get("/auth/verify-email/{verification_token}", [EmailVerificationController::class, 'verifyEmail'])->name('verify_email');
 
 
+
+Route :: post("doctor/info/update", [DoctorController::class, 'setDoctorInfo']);
+Route :: get("doctor/info/{uid}", [DoctorController::class, 'getDoctorInfoById']);
+Route :: post("doctor/update", [DoctorController::class, 'updateDoctor']);

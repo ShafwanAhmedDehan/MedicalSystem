@@ -14,13 +14,15 @@ class DoctorTableData extends Seeder
      */
     public function run(): void
     {
-        
+
         for ($i = 1; $i < 11; $i++) {
 
             DB::table('doctors')->insert([
                 'specialization' => 'Specility' . $i,
                 'hospitalid' => $i,
-                'uid' => 11+$i,
+                'uid' => 11 + $i,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
 
             // $table-> id();

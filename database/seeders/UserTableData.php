@@ -26,6 +26,8 @@ class UserTableData extends Seeder
             'role' => '1',
             'address' => 'Dhaka, Bangladesh',
             'verifystatus' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         for ($i = 1; $i < 11; $i++) {
@@ -39,6 +41,8 @@ class UserTableData extends Seeder
                 'role' => '3',
                 'address' => $faker->address,
                 'verifystatus' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
 
@@ -53,6 +57,8 @@ class UserTableData extends Seeder
                 'role' => '2',
                 'address' => $faker->address,
                 'verifystatus' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
 
@@ -67,6 +73,8 @@ class UserTableData extends Seeder
                 'role' => '0',
                 'address' => $faker->address,
                 'verifystatus' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
 
@@ -81,6 +89,8 @@ class UserTableData extends Seeder
                 'role' => '0',
                 'address' => $faker->address,
                 'verifystatus' => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SystemRegistration\AdminRegistrationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SystemLogin\LoginController;
@@ -31,11 +32,11 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route :: get("patient/about/{uid}", [PatientInfoController::class, 'GetUserById']);
     Route :: post("hospital/registration", [HospitalRegistrationController::class, 'CreateHospital']);
     Route :: post("doctor/registration", [DoctorRegistrationController::class, 'CreateDoctor']);
-  
-});
 
+});
+Route::post("admin/registration", [AdminRegistrationController::class, 'CreateAdmin']);
 
 Route :: post("patient/registration", [PatientRegistrationController::class, 'getRegister']);
 Route :: get("/auth/verify-email/{verification_token}", [EmailVerificationController::class, 'verifyEmail'])->name('verify_email');
-                                                       
+
 

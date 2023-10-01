@@ -21,6 +21,8 @@ class HospitalTableData extends Seeder
                 'hospitalname' => 'Hospital' . $i,
                 'location' => $faker->address,
                 'adminid' => 1 + $i,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
     }

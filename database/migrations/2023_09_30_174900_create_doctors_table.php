@@ -17,7 +17,7 @@ return new class extends Migration
             $table -> string('visitingDay')->nullable();
             $table -> integer('hospitalid');
             $table -> integer('patientcount') ->nullable();
-            $table -> time('visitingTime') ->nullable();
+            $table -> string('visitingTime') ->nullable();
             $table -> integer('uid');
             $table->timestamps();
         });

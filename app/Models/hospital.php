@@ -15,4 +15,9 @@ class hospital extends Model
         'location',
         'adminid'
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }

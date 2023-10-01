@@ -8,14 +8,16 @@ use App\Models\User;
 
 class PatientInfoController extends Controller
 {
-    //user information display
+    //patient management controller
+
+    //Patient information display
     function GetUserById($uid)
     {
         //Get user info by id
         $user = User :: where('id', $uid)->get();
 
         // Check if any user was found
-        if ($user->isEmpty()) 
+        if ($user->isEmpty())
         {
             return response()->json(['message' => 'No user found.']);
         }

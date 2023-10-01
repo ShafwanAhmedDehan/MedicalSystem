@@ -17,4 +17,9 @@ class authtoken extends Model
         'expires_at',
         'user_id'
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }

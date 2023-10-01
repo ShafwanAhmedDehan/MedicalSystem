@@ -10,7 +10,9 @@ use App\Models\hospital;
 
 class HospitalController extends Controller
 {
-    //manage hospital
+    //manage hospital controller
+
+    //hospital information display
     function getHospitalbyAdminId($adminID)
     {
         //get the hospital of the admin
@@ -18,7 +20,7 @@ class HospitalController extends Controller
         ->select('id', 'hospitalname', 'location')
         ->get();
 
-        if ($hospital->isEmpty()) 
+        if ($hospital->isEmpty())
         {
             return response()->json(['message' => 'No hospital found.']);
         }

@@ -31,7 +31,7 @@ class EmailVerificationMail extends Mailable
     public function build()
     {
         return $this
-            ->subject('Email Verification Mail')
+            ->subject('MedicalService Email Verification Mail')
             ->markdown('auth.email_verification_mail')
             ->with([
                 'newemailvalidator' => $this->newemailvalidator,

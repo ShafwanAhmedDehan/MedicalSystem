@@ -21,7 +21,7 @@ class EmailVerification extends Model
         'email_verified_at',
     ];
 
-    
+
 
 
     /**

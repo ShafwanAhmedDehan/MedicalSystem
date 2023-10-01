@@ -19,7 +19,7 @@ class doctor extends Model
     ];
 
 
-     /**
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
@@ -28,6 +28,4 @@ class doctor extends Model
         'created_at',
         'updated_at'
     ];
-
-
 }

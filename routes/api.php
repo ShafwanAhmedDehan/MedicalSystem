@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckTokenValidity;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Doctor\DoctorController;
+use App\Http\Controllers\Search\SearchController;
 use App\Http\Controllers\Hospital\HospitalController;
 use App\Http\Controllers\SystemLogin\LoginController;
 use App\Http\Controllers\Patient\PatientInfoController;
@@ -63,7 +64,7 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route::get("admin/delete/{uid}", [AdminController::class, 'deleteAdminById']);
 });
 
-
+Route::get("search/active", [SearchController::class, 'ActiveSearch']);
 
 Route::post("patient/registration", [PatientRegistrationController::class, 'getRegister']);
 Route::get("/auth/verify-email/{verification_token}", [EmailVerificationController::class, 'verifyEmail'])->name('verify_email');

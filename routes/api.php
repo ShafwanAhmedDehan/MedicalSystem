@@ -45,6 +45,7 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route::get("hospital/info/{hid}", [HospitalController::class, 'getHospitalbyId']);
 
     Route::get("doctor/all", [DoctorController::class, 'getAllDoctor']);
+    Route::get("doctor/hospital/{hid}", [DoctorController::class, 'getDoctorByHospitalId']);
     Route::post("doctor/registration", [DoctorRegistrationController::class, 'CreateDoctor']);
     Route::get("doctor/about/{uid}", [DoctorController::class, 'GetDoctorById']);
     Route::post("doctor/info/update", [DoctorController::class, 'setDoctorInfo']);

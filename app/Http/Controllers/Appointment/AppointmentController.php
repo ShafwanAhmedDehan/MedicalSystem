@@ -105,4 +105,13 @@ class AppointmentController extends Controller
             return response()->json(['message' => 'Appointment deleted successfully.']);
         }
     }
+
+    //use for show all the appointment
+    function showAllAppointments()
+    {
+        //get all the appointment
+        $appointments_list = appointment :: all();
+
+        return response()->json($appointments_list);
+    }
 }

@@ -60,7 +60,7 @@ class AdminController extends Controller
     }
 
     //Admin information update
-    public function updateAdmin(Request $AdminData,)
+    public function updateAdmin(Request $AdminData)
     {
         $userId = $AdminData->input('uid');
         // Validation Message and Rules (You can modify these as needed)

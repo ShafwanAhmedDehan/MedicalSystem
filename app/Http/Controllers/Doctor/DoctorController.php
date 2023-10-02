@@ -38,6 +38,8 @@ class DoctorController extends Controller
         }
     }
 
+
+
     //all doctor information display
     function getAllDoctor()
     {
@@ -52,7 +54,7 @@ class DoctorController extends Controller
         }
     }
 
-
+    //get doctor by doctor id
     public function getDoctorInfoById($uid)
     {
         // Get user info by id

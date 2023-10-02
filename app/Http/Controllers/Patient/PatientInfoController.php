@@ -34,6 +34,7 @@ class PatientInfoController extends Controller
         return response()->json($user);
     }
 
+
     //All Patient information display
     function getAllPatient()
     {
@@ -68,6 +69,7 @@ class PatientInfoController extends Controller
         return response()->json(['message' => 'User deleted successfully.']);
     }
 
+    //use for update patient information
     public function updatePatient(Request $request)
     {
         $userId = $request->input('uid');

@@ -45,6 +45,7 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route::get("hospital/info/{hid}", [HospitalController::class, 'getHospitalbyId']);
 
     Route::get("doctor/all", [DoctorController::class, 'getAllDoctor']);
+    Route::get("doctor/hospital/{hid}", [DoctorController::class, 'getDoctorByHospitalId']);
     Route::post("doctor/registration", [DoctorRegistrationController::class, 'CreateDoctor']);
     Route::get("doctor/about/{uid}", [DoctorController::class, 'GetDoctorById']);
     Route::post("doctor/info/update", [DoctorController::class, 'setDoctorInfo']);
@@ -64,7 +65,7 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route::get("admin/delete/{uid}", [AdminController::class, 'deleteAdminById']);
 });
 
-Route::get("search/active", [SearchController::class, 'ActiveSearch']);
+Route::post("search/active", [SearchController::class, 'ActiveSearch']);
 
 Route::post("patient/registration", [PatientRegistrationController::class, 'getRegister']);
 Route::get("/auth/verify-email/{verification_token}", [EmailVerificationController::class, 'verifyEmail'])->name('verify_email');

@@ -18,22 +18,27 @@ class CheckTokenValidity
     public function handle(Request $request, Closure $next): Response
     {
         $token = $request->bearerToken();
-        if (!$token) 
+        if (!$token)
         {
             return response()->json(['error' => 'No token Supplied']);
         }
 
         $tokenRecord = authtoken :: where('token', $token)->first();
-    
-        if (!$tokenRecord) 
+
+        if (!$tokenRecord)
         {
             return response()->json(['error' => 'Wrong Token'], 401);
         }
-    
-        if ($tokenRecord->expires_at < (now()->addHours(6))) 
+
+        if ($tokenRecord->expires_at < (now()->addHours(6)))
         {
             return response()->json(['error' => 'Token has expired'], 401);
         }
-        return $next($request);    
+         
+
+
+
+
+        return $next($request);
     }
 }

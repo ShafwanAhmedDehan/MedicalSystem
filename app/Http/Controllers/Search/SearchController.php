@@ -13,6 +13,8 @@ class SearchController extends Controller
     //
     public function ActiveSearch(Request $request){
 
+
+        
         $request->validate([
             'query' => 'required|string|min:2',
         ]);

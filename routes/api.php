@@ -65,7 +65,7 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route::get("admin/delete/{uid}", [AdminController::class, 'deleteAdminById']);
 });
 
-Route::get("search/active", [SearchController::class, 'ActiveSearch']);
+Route::post("search/active", [SearchController::class, 'ActiveSearch']);
 
 Route::post("patient/registration", [PatientRegistrationController::class, 'getRegister']);
 Route::get("/auth/verify-email/{verification_token}", [EmailVerificationController::class, 'verifyEmail'])->name('verify_email');

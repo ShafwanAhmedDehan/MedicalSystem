@@ -16,7 +16,7 @@ class DoctorController extends Controller
     function GetDoctorById($uid)
     {
         //Get user info by id
-        $user = User::where('id', $uid)->get();
+        $user = User::where('id', $uid)->first();
 
         // Check if any user was found
         if (!$user) {
@@ -35,7 +35,7 @@ class DoctorController extends Controller
         }
     }
 
-
+    //getting doctor profile
     public function getDoctorInfoById($uid)
     {
         // Get user info by id

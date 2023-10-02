@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\SystemRegistration\AdminRegistrationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckTokenValidity;
@@ -8,6 +7,8 @@ use App\Http\Controllers\Doctor\DoctorController;
 use App\Http\Controllers\Hospital\HospitalController;
 use App\Http\Controllers\SystemLogin\LoginController;
 use App\Http\Controllers\Patient\PatientInfoController;
+use App\Http\Controllers\Appointment\AppointmentController;
+use App\Http\Controllers\SystemRegistration\AdminRegistrationController;
 use App\Http\Controllers\SystemVerification\EmailVerificationController;
 use App\Http\Controllers\SystemRegistration\DoctorRegistrationController;
 use App\Http\Controllers\SystemRegistration\PatientRegistrationController;
@@ -49,11 +50,13 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
 
     Route::get("hospital/about/{adminID}", [HospitalController::class, 'getHospitalbyAdminId']);
 
+    Route::post("admin/registration", [AdminRegistrationController::class, 'CreateAdmin']);
+
+
 
 });
 
-
-Route::post("admin/registration", [AdminRegistrationController::class, 'CreateAdmin']);
+Route::post("create/appointment", [AppointmentController::class, 'createNewAppointment']);
 
 Route::post("patient/registration", [PatientRegistrationController::class, 'getRegister']);
 Route::get("/auth/verify-email/{verification_token}", [EmailVerificationController::class, 'verifyEmail'])->name('verify_email');

@@ -34,7 +34,23 @@ class PatientInfoController extends Controller
         return response()->json($user);
     }
 
-    //patient delete function
+
+    //All Patient information display
+    function getAllPatient()
+    {
+        //Get user info by id
+        $user = User::where('role', 0)->get();
+
+        // Check if any user was found
+        if ($user->isEmpty()) {
+            return response()->json(['message' => 'No patient found.']);
+        }
+
+        //if user found then it will return
+        return response()->json($user);
+    }
+
+    //Patient delete
     function deletePatientById($uid)
     {
         //Get user info by id

@@ -29,6 +29,21 @@ class HospitalController extends Controller
         return response()->json($hospital);
     }
 
+    //all hospital information display
+    function getAllHospital()
+    {
+        //get the hospital of the admin
+        $hospital = hospital::select('id', 'hospitalname', 'location')
+            ->get();
+
+        if ($hospital->isEmpty()) {
+            return response()->json(['message' => 'No hospital found.']);
+        }
+
+        //if hospital found then it will return
+        return response()->json($hospital);
+    }
+
     //hospital information update
     function updateHospital(Request $HospitalData,)
     {
@@ -71,7 +86,10 @@ class HospitalController extends Controller
 
         if ($hospital->save()) {
             // Update was successful
-            return response()->json($hospital);
+            return response()->json([
+                'message' => 'Hospital Update successful',
+                'hospital'=> $hospital
+            ]);
         } else {
             // Update failed
             $error = [

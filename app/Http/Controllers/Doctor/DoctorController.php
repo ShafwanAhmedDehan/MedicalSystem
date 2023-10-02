@@ -22,7 +22,10 @@ class DoctorController extends Controller
         if (!$user) {
             return response()->json(['message' => 'No user found.']);
         } else {
-            $doctorProfile = doctor::where('uid', $uid)->get();
+            if ($user->role !== 2) {
+                return response()->json(['message' => 'User is not a doctor.']);
+            }
+            $doctorProfile = doctor::where('uid', $uid)->first();
             if (!$doctorProfile) {
                 return response()->json(['message' => 'No user found.']);
             } else {
@@ -35,7 +38,23 @@ class DoctorController extends Controller
         }
     }
 
-    //getting doctor profile
+
+
+    //all doctor information display
+    function getAllDoctor()
+    {
+        //Get user info by id
+        $user = User::where('role', 2)->get();
+
+        // Check if any user was found
+        if ($user->isEmpty()) {
+            return response()->json(['message' => 'No doctor found.']);
+        } else {
+            return response()->json($user);
+        }
+    }
+
+    //get doctor by doctor id
     public function getDoctorInfoById($uid)
     {
         // Get user info by id
@@ -113,7 +132,11 @@ class DoctorController extends Controller
             ]);
 
             if ($doctorProfile) {
-                return response()->json(['message' => 'Doctor info updated successfully.']);
+                return response()->json([
+                    'message' => 'Doctor info updated successfully.',
+                    'doctor' => $doctorProfile,
+
+                ]);
             } else {
                 return response()->json(['message' => 'Doctor info update failed.']);
             }
@@ -231,7 +254,10 @@ class DoctorController extends Controller
 
             if ($doctorInfo->save()) {
                 // Update was successful
-                return response()->json(['message' => 'Doctor information updated successfully']);
+                return response()->json([
+                    'message' => 'Doctor information updated successfully',
+                    'doctor' => $doctor,
+                ]);
             } else {
                 // Update failed
                 return response()->json(['message' => 'Doctor table update failed']);

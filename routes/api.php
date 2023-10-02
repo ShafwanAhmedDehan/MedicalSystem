@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckTokenValidity;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Doctor\DoctorController;
 use App\Http\Controllers\Hospital\HospitalController;
 use App\Http\Controllers\SystemLogin\LoginController;
@@ -30,17 +31,19 @@ Route::post("login", [LoginController::class, 'GetLoginInfo']);
 
 
 Route::middleware(CheckTokenValidity::class)->group(function () {
+    Route::get("patient/all", [PatientInfoController::class, 'getAllPatient']);
     Route::get("patient/about/{uid}", [PatientInfoController::class, 'GetUserById']);
     Route::get("patient/delete/{uid}", [PatientInfoController::class, 'deletePatientById']);
     Route::post("patient/update", [PatientInfoController::class, 'updatePatient']);
 
-
+    Route::get("hospital/all", [HospitalController::class, 'getAllHospital']);
+    Route::get("hospital/about/{adminID}", [HospitalController::class, 'getHospitalbyAdminId']);
     Route::post("hospital/registration", [HospitalRegistrationController::class, 'CreateHospital']);
     Route::get("hospital/delete/{hid}", [HospitalController::class, 'deleteHospital']);
     Route::post("hospital/update", [HospitalController::class, 'updateHospital']);
     Route::get("hospital/info/{hid}", [HospitalController::class, 'getHospitalbyId']);
 
-
+    Route::get("doctor/all", [DoctorController::class, 'getAllDoctor']);
     Route::post("doctor/registration", [DoctorRegistrationController::class, 'CreateDoctor']);
     Route::get("doctor/about/{uid}", [DoctorController::class, 'GetDoctorById']);
     Route::post("doctor/info/update", [DoctorController::class, 'setDoctorInfo']);
@@ -48,16 +51,16 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route::post("doctor/update", [DoctorController::class, 'updateDoctor']);
     Route::get("doctor/delete/{uid}", [DoctorController::class, 'deleteDoctorById']);
 
-    Route::get("hospital/about/{adminID}", [HospitalController::class, 'getHospitalbyAdminId']);
-
-    Route::post("admin/registration", [AdminRegistrationController::class, 'CreateAdmin']);
-
     Route::post("create/appointment", [AppointmentController::class, 'createNewAppointment']);
     Route::get("view/appointment/{Did}", [AppointmentController::class, 'getAppointmentByDoctor']);
     Route::delete("delete/appointment/{Did}", [AppointmentController::class, 'deleteAppointmentById']);
     Route::get("get/appointment/all", [AppointmentController::class, 'showAllAppointments']);
 
-
+    Route::get("admin/all", [AdminController::class, 'getAllAdmin']);
+    Route::post("admin/registration", [AdminRegistrationController::class, 'CreateAdmin']);
+    Route::get("admin/about/{uid}", [AdminController::class, 'GetAdminById']);
+    Route::post("admin/update", [AdminController::class, 'updateAdmin']);
+    Route::get("admin/delete/{uid}", [AdminController::class, 'deleteAdminById']);
 });
 
 

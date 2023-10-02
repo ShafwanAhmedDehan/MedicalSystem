@@ -31,6 +31,8 @@ use App\Http\Controllers\SystemRegistration\HospitalRegistrationController;
 Route::post("login", [LoginController::class, 'GetLoginInfo']);
 
 
+//['CheckTokenValidity', 'role:0']
+
 Route::middleware(CheckTokenValidity::class)->group(function () {
     Route::get("patient/all", [PatientInfoController::class, 'getAllPatient']);
     Route::get("patient/about/{uid}", [PatientInfoController::class, 'GetUserById']);

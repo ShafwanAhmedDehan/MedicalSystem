@@ -15,17 +15,64 @@ class DoctorTableData extends Seeder
     public function run(): void
     {
 
-        for ($i = 1; $i < 11; $i++) {
+        // Define an array of real doctor specializations
+        $specializations = [
+            'Cardiologist',
+            'Orthopedic Surgeon',
+            'Pediatrician',
+            'Dermatologist',
+            'Oncologist',
+            'Neurologist',
+            'Gynecologist',
+            'Urologist',
+            'ENT Specialist',
+            'General Surgeon',
+        ];
+        $visitingDays = [
+            'sun mon',
+            'fri',
+            'sat',
+            'sat sun',
+            'mon tue',
+            'tue wed',
+            'wed thu',
+            'sat sun mon',
+            'tue wed thu',
+            'wed thu fri',
+            'thu fri sat',
+            'fri sat sun',
 
+        ];
+
+        $patientCounts = [20, 25, 30, 35, 40, 45, 50];
+
+        $visitingTimes = [
+            '8:00 AM - 12:00 PM',
+            '10:00 AM - 2:00 PM',
+            '12:00 PM - 4:00 PM',
+            '2:00 PM - 6:00 PM',
+            '4:00 PM - 8:00 PM',
+            '6:00 PM - 10:00 PM',
+
+        ];
+
+        for ($i = 0; $i < 10; $i++) {
             DB::table('doctors')->insert([
-                'specialization' => 'Specility' . $i,
-                'hospitalid' => $i,
+                'specialization' => $specializations[$i % count($specializations)],
+                'hospitalid' => $i + 1, // Adjust the hospitalid as needed
+                'visitingDay'=> $visitingDays[$i],
+                'patientcount'=> $patientCounts[array_rand($patientCounts)],
+                'visitingTime'=> $visitingTimes[array_rand($visitingTimes)],
                 'uid' => 11 + $i,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+        }
+    }
+}
 
-            // $table-> id();
+
+ // $table-> id();
             // $table -> string('specialization');
             // $table -> string('visitingDay')->nullable();
             // $table -> integer('hospitalid');
@@ -47,6 +94,3 @@ class DoctorTableData extends Seeder
             //     "specialization": "heart surgion",
             //     "hospitalid": 1
             // }
-        }
-    }
-}

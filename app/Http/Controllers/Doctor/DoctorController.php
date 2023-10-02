@@ -36,6 +36,39 @@ class DoctorController extends Controller
     }
 
 
+    //Get doctors and doctors detail by hospital id
+    function getDoctorByHospitalId($hid)
+    {
+        // Get doctors by hospital id
+        $doctors = Doctor::where('hospitalid', $hid)->get();
+
+        // Check if any doctor was found
+        if ($doctors->isEmpty()) {
+            return response()->json(['message' => 'No doctor found.']);
+        }
+
+        // Initialize an array to store user information for each doctor
+        $doctorInfo = [];
+
+        // Iterate through the doctors and get user information for each doctor
+        foreach ($doctors as $doctor) {
+            $user = User::where('id', $doctor->uid)->first(); // Assuming 'id' is unique, use first() to get a single user
+
+            if ($user) {
+                // Add user information to the array for this doctor
+                $doctorInfo[] = [
+                    'user' => $user,
+                    'doctor' => $doctor,
+                ];
+            }
+        }
+
+        // Return the array containing information for all the doctors
+        return response()->json($doctorInfo);
+    }
+
+
+
 
     //all doctor information display
     function getAllDoctor()
@@ -146,7 +179,7 @@ class DoctorController extends Controller
     function updateDoctor(Request $DoctorData)
     {
 
-        $id=$DoctorData->input('uid');
+        $id = $DoctorData->input('uid');
         // Find the doctor by ID
         $doctor = User::find($id);
 

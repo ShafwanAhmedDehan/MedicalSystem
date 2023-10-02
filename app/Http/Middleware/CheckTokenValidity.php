@@ -25,7 +25,9 @@ class CheckTokenValidity
         }
 
         $tokenRecord = authtoken :: where('token', $token)->first();
+
         //$userinfo = User :: where ('id', $tokenRecord->user_id)->first();
+
 
         if (!$tokenRecord)
         {
@@ -36,6 +38,7 @@ class CheckTokenValidity
         {
             return response()->json(['error' => 'Token has expired'], 401);
         }
+
         /*else
         {
             if ($userinfo->role === (int)$role)
@@ -59,6 +62,7 @@ class CheckTokenValidity
                 return response()->json(['error' => 'Unauthorized'], 403);
             }
         }*/
+
         return $next($request);
     }
 }

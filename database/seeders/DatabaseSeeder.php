@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             DoctorTableData::class,
             HospitalTableData::class,
             //PatientTableData::class,
-            //AppointmentTableData::class,
+            AppointmentTableData::class,
             //PrescriptionTableData::class,
             // DoctorTableData::class,
             // PatientTableData::class,

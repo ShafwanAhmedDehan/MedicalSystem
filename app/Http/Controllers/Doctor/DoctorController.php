@@ -30,10 +30,7 @@ class DoctorController extends Controller
                 return response()->json(['message' => 'No user found.']);
             } else {
                 //if user found then it will return
-                return response()->json([
-                    'user' => $user,
-                    'doctor' => $doctorProfile,
-                ]);
+                return response()->json($user);
             }
         }
     }

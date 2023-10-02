@@ -52,11 +52,12 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
 
     Route::post("admin/registration", [AdminRegistrationController::class, 'CreateAdmin']);
 
-
+    Route::post("create/appointment", [AppointmentController::class, 'createNewAppointment']);
+    Route::get("view/appointment/{Did}", [AppointmentController::class, 'getAppointmentByDoctor']);
+    Route::delete("delete/appointment/{Did}", [AppointmentController::class, 'deleteAppointmentById']);
 
 });
 
-Route::post("create/appointment", [AppointmentController::class, 'createNewAppointment']);
 
 Route::post("patient/registration", [PatientRegistrationController::class, 'getRegister']);
 Route::get("/auth/verify-email/{verification_token}", [EmailVerificationController::class, 'verifyEmail'])->name('verify_email');

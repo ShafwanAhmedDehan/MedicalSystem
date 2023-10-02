@@ -73,4 +73,36 @@ class AppointmentController extends Controller
             return response()->json(['message' => 'Doctor does not have slot for this appointment']);
         }
     }
+
+    //function for get all appointment of today by doctor id
+    function getAppointmentByDoctor($Did)
+    {
+        //getting today's date
+        $currentDate = Carbon::now();
+        $dateFormatted = $currentDate->format('Y-m-d');
+
+        //getting all the appointment of current date
+        $appointment_list = appointment::where('doctor_id', '=', $Did)
+                            ->where('date_of_appointment', '=', $dateFormatted)
+                            ->get();
+
+        return $appointment_list;
+    }
+
+    //function for delete the appointment
+    function deleteAppointmentById($id)
+    {
+        $appointment = appointment :: where('id', $id)->first();
+
+        if(!$appointment)
+        {
+            return response()->json(['message' => 'No appointment found.']);
+        }
+
+        else
+        {
+            $appointment->delete();
+            return response()->json(['message' => 'Appointment deleted successfully.']);
+        }
+    }
 }

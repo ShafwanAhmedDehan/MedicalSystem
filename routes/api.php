@@ -52,8 +52,8 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route::get("doctor/delete/{uid}", [DoctorController::class, 'deleteDoctorById']);
 
     Route::post("create/appointment", [AppointmentController::class, 'createNewAppointment']);
-    Route::get("view/appointment/{Did}", [AppointmentController::class, 'getAppointmentByDoctor']);
-    Route::delete("delete/appointment/{Did}", [AppointmentController::class, 'deleteAppointmentById']);
+    Route::get("view/appointment/{did}", [AppointmentController::class, 'getAppointmentByDoctor']);
+    Route::delete("delete/appointment/{aid}", [AppointmentController::class, 'deleteAppointmentById']);
     Route::get("get/appointment/all", [AppointmentController::class, 'showAllAppointments']);
 
     Route::get("admin/all", [AdminController::class, 'getAllAdmin']);

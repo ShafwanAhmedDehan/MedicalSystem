@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Validator;
 class HospitalController extends Controller
 {
     //manage hospital controller
-
     //hospital information display
     function getHospitalbyAdminId($adminID)
     {
@@ -21,7 +20,7 @@ class HospitalController extends Controller
             ->select('id', 'hospitalname', 'location')
             ->first();
 
-        if ($hospital->isEmpty()) {
+        if (!$hospital) {
             return response()->json(['message' => 'No hospital found.']);
         }
 
@@ -36,7 +35,7 @@ class HospitalController extends Controller
         $hospital = hospital::select('id', 'hospitalname', 'location')
             ->get();
 
-        if ($hospital->isEmpty()) {
+        if (!$hospital) {
             return response()->json(['message' => 'No hospital found.']);
         }
 
@@ -136,7 +135,7 @@ class HospitalController extends Controller
             ->select('id', 'hospitalname', 'location')
             ->get();
 
-        if ($hospital->isEmpty()) {
+        if (!$hospital) {
             return response()->json(['message' => 'No hospital found.']);
         }
 

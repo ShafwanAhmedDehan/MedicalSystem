@@ -43,7 +43,7 @@ class DoctorController extends Controller
         $doctors = Doctor::where('hospitalid', $hid)->get();
 
         // Check if any doctor was found
-        if ($doctors->isEmpty()) {
+        if (!$doctors) {
             return response()->json(['message' => 'No doctor found.']);
         }
 
@@ -81,7 +81,7 @@ class DoctorController extends Controller
             ->get();
 
         // Check if any user was found
-        if ($usersWithDoctorInfo->isEmpty()) {
+        if (!$usersWithDoctorInfo) {
             return response()->json(['message' => 'No doctor found.']);
         } else {
             return response()->json($usersWithDoctorInfo);

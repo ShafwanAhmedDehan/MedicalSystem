@@ -34,7 +34,7 @@ class AdminController extends Controller
         $user = User::where('role', 3)->get();
 
         // Check if any user was found
-        if ($user->isEmpty()) {
+        if (!$user) {
             return response()->json(['message' => 'No admin found.']);
         } else {
             return response()->json($user);

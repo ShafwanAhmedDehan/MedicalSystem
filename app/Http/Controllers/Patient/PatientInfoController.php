@@ -23,7 +23,7 @@ class PatientInfoController extends Controller
         $user = User::find($uid);
 
         //check if any user was found
-        if (!$user) 
+        if (!$user)
         {
             return response()->json(['message' => 'No user found.']);
         }
@@ -43,7 +43,7 @@ class PatientInfoController extends Controller
         $user = User::where('role', 0)->get();
 
         // Check if any user was found
-        if ($user->isEmpty()) {
+        if (!$user) {
             return response()->json(['message' => 'No patient found.']);
         }
 

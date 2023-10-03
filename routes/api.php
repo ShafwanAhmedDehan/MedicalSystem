@@ -8,6 +8,7 @@ use App\Http\Controllers\Doctor\DoctorController;
 use App\Http\Controllers\Search\SearchController;
 use App\Http\Controllers\Hospital\HospitalController;
 use App\Http\Controllers\SystemLogin\LoginController;
+use App\Http\Controllers\Notify\NotificationController;
 use App\Http\Controllers\Patient\PatientInfoController;
 use App\Http\Controllers\Appointment\AppointmentController;
 use App\Http\Controllers\SystemRegistration\AdminRegistrationController;
@@ -67,9 +68,10 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route::get("admin/delete/{uid}", [AdminController::class, 'deleteAdminById']);
 
     Route::post("search/active", [SearchController::class, 'ActiveSearch']);
-    
+
 });
 
+Route::post('/notification/{id}', [NotificationController::class, 'patientNotification']);
 
 Route::post("patient/registration", [PatientRegistrationController::class, 'getRegister']);
 Route::get("/auth/verify-email/{verification_token}", [EmailVerificationController::class, 'verifyEmail'])->name('verify_email');

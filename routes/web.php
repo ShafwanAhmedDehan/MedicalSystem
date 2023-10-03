@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/notifiers', function () {
+    return view('notifiers');
+})->name('notifiers');

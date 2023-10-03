@@ -11,16 +11,16 @@ class PatientInfoController extends Controller
     //user information display
     function GetUserById($uid)
     {
-        //Get user info by id
-        $user = User :: where('id', $uid)->get();
+        //get user info by id
+        $user = User::find($uid);
 
-        // Check if any user was found
-        if ($user->isEmpty()) 
+        //check if any user was found
+        if (!$user) 
         {
-            return response()->json(['message' => 'No user found.']);
+            return response()->json(['message' => 'No user found.'], 404);
         }
 
-        //if user found then it will return
-        return response()->json($user);
+        //if user found, return
+        return response()->json([ "user" => $user ], 200);
     }
 }

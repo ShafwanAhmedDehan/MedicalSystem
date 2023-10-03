@@ -15,25 +15,38 @@ class CheckTokenValidity
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        $token = $request->bearerToken();
-        if (!$token) 
+        if ($jwt = $request->cookie('jwt'))
         {
-            return response()->json(['error' => 'No token Supplied']);
+            $request->headers->set('Authorization', 'Bearer ' . $jwt);
         }
 
-        $tokenRecord = authtoken :: where('token', $token)->first();
+        $token = $request->bearerToken();
+
+        if (!$token)
+        {
+            return response()->json(['error' => 'no token provided']);
+        }
+
+        $tokenRecord = authtoken::where('token', $token)->first();
     
         if (!$tokenRecord) 
         {
-            return response()->json(['error' => 'Wrong Token'], 401);
+            return response()->json(['error' => 'invalid token']);
         }
     
         if ($tokenRecord->expires_at < (now()->addHours(6))) 
         {
-            return response()->json(['error' => 'Token has expired'], 401);
+            $this->destroyToken($tokenRecord);
+            return response()->json(['error' => 'token has expired']);
         }
-        return $next($request);    
+
+        return $next($request);
+    }
+
+    public function destroyToken(authtoken $tokenRec)
+    {
+        $tokenRec->delete();
     }
 }

@@ -61,7 +61,7 @@ class PatientRegistrationController extends Controller
             'confirm_password.min'=>'Please enter a Confirm Password with minimum 8 characters',
             'confirm_password.max'=>'Please enter a Confirm Password under 100 character',
             'confirm_password.regex'=>'Confirm Password must contain at least one uppercase, one lowercase letter, one number and one special character',
-            'confirm_password.same'=>'Password and Confirm Password does not match',
+            'confirm_password.same'=>'Confirm Password does not match with Password',
 
         ];
 
@@ -84,7 +84,7 @@ class PatientRegistrationController extends Controller
         if ($validationCheck->fails())
         {
 
-            return response()->json(['errors' => $validationCheck->errors()], 422);
+            return response()->json(['errors' => $validationCheck->errors()]);
         }
 
 
@@ -115,19 +115,17 @@ class PatientRegistrationController extends Controller
             {
 
 
-                 if(Mail::to ($PatientData->input('email'))->send (new EmaiLVerificationMail($newemailvalidator)))
+                 if(Mail::to($PatientData->input('email'))->send(new EmaiLVerificationMail($newemailvalidator)))
                 {
                     return response()->json([
-
-                        'message' => 'Registration successful. Please verify your email.',
+                        'message' => 'Registration successful. Please verify your email',
                         'user' => $newuser,
                     ]);
                 }
                 else
                 {
                     return response()->json([
-
-                        'message' => 'Somethig went wrong! Registration is successful but Validation Email is not sent.',
+                        'message' => 'Registration is successful but verification email is not sent',
                         'user' => $newuser,
                     ]);
                 }
@@ -138,10 +136,9 @@ class PatientRegistrationController extends Controller
         else
         {
             // Insertion failed
-            $Error = [
+            return response()->json([
                 'message' => 'Registration failed'
-            ];
-            return response()->json($Error);
+            ]);
         }
     }
 

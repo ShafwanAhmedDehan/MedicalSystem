@@ -22,20 +22,16 @@ use App\Http\Controllers\SystemVerification\EmailVerificationController;
 |
 */
 
-Route :: post("login", [LoginController::class, 'GetLoginInfo']);
-
-
+Route::post("login", [LoginController::class, 'GetLoginInfo'])->name('login');
+Route::get("/auth/verify-email/{verification_token}", [EmailVerificationController::class, 'verifyEmail'])->name('verify_email');
+Route::post("patient/registration", [PatientRegistrationController::class, 'getRegister']);
 
 
 Route::middleware(CheckTokenValidity::class)->group(function () {
-    Route :: get("patient/about/{uid}", [PatientInfoController::class, 'GetUserById']);
-    Route :: post("hospital/registration", [HospitalRegistrationController::class, 'CreateHospital']);
-    Route :: post("doctor/registration", [DoctorRegistrationController::class, 'CreateDoctor']);
+    Route::get("logout", [LoginController::class, 'logout'])->name('logout');
+    Route::get("patient/about/{uid}", [PatientInfoController::class, 'GetUserById']);
+    Route::post("hospital/registration", [HospitalRegistrationController::class, 'CreateHospital']);
+    Route::post("doctor/registration", [DoctorRegistrationController::class, 'CreateDoctor']);
   
 });
-
-
-Route :: post("patient/registration", [PatientRegistrationController::class, 'getRegister']);
-Route :: get("/auth/verify-email/{verification_token}", [EmailVerificationController::class, 'verifyEmail'])->name('verify_email');
-                                                       
 

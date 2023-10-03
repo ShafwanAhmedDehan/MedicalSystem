@@ -67,7 +67,7 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route::get("admin/delete/{uid}", [AdminController::class, 'deleteAdminById']);
 
     Route::post("search/active", [SearchController::class, 'ActiveSearch']);
-    
+
 });
 
 

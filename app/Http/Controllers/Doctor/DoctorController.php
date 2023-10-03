@@ -74,13 +74,17 @@ class DoctorController extends Controller
     function getAllDoctor()
     {
         //Get user info by id
-        $user = User::where('role', 2)->get();
+        //$user = User::where('role', 2)->get();
+        $usersWithDoctorInfo = User::where('role', 2)
+            ->join('doctors', 'users.id', '=', 'doctors.uid')
+            ->select('users.*', 'doctors.specialization','doctors.visitingDay','doctors.hospitalid','doctors.visitingTime','doctors.patientcount')
+            ->get();
 
         // Check if any user was found
-        if ($user->isEmpty()) {
+        if ($usersWithDoctorInfo->isEmpty()) {
             return response()->json(['message' => 'No doctor found.']);
         } else {
-            return response()->json($user);
+            return response()->json($usersWithDoctorInfo);
         }
     }
 

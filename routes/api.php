@@ -10,6 +10,7 @@ use App\Http\Controllers\Hospital\HospitalController;
 use App\Http\Controllers\SystemLogin\LoginController;
 use App\Http\Controllers\Patient\PatientInfoController;
 use App\Http\Controllers\Appointment\AppointmentController;
+use App\Http\Controllers\Notification\NotificationController;
 use App\Http\Controllers\SystemRegistration\AdminRegistrationController;
 use App\Http\Controllers\SystemVerification\EmailVerificationController;
 use App\Http\Controllers\SystemRegistration\DoctorRegistrationController;
@@ -59,6 +60,8 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route::get("view/appointment/{did}", [AppointmentController::class, 'getAppointmentByDoctor']);
     Route::delete("delete/appointment/{aid}", [AppointmentController::class, 'deleteAppointmentById']);
     Route::get("get/appointment/all", [AppointmentController::class, 'showAllAppointments']);
+    Route::post("sms/notification/{id}", [NotificationController::class, 'SendSMS']);
+
 
     Route::get("admin/all", [AdminController::class, 'getAllAdmin']);
     Route::post("admin/registration", [AdminRegistrationController::class, 'CreateAdmin']);

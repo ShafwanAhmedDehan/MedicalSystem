@@ -12,78 +12,114 @@ use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\authtoken;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Symfony\Component\HttpFoundation\Response;
 
 class LoginController extends Controller
 {
     //Function for login
-    function GetLoginInfo(Request $loginValues)
+    public function GetLoginInfo(Request $loginValues)
     {
         //Customize validation messages
         $validationMessages = [
-            'required' => 'The :attribute field is required.',
-            'regex' => 'The :attribute field is not valid email.',
-        ];
+                'required' => 'The :attribute field is required.',
+                'regex' => 'The :attribute field is not valid email.',
+            ];
 
         //rules for validation
         $rules = [
             'email' => ['required', 'regex:/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/'],
             'password' => 'required',
         ];
-        
+
 
         // Perform validation
         $validationCheck = Validator::make($loginValues->all(), $rules, $validationMessages);
 
         // Check if validation fails
-        if ($validationCheck->fails()) 
-        {
+        if ($validationCheck->fails()) {
             return response()->json(['errors' => $validationCheck->errors()], 422);
         }
 
         //Login Credentials checking
-        $User = User :: where('email', $loginValues-> email)->first();
+        $user = User::where('email', $loginValues->email)->first();
 
-        //user found or not and match the password
+        //user found and password matched and email verified
+        if ($user) {
+            if ((Hash::check(($loginValues->password), ($user->password))) && (($user->verifystatus) == 1)) {
+                //login Passsed
+                //token creation
+                $payload = [
+                    'sub' => $user->id,
+                    'iat' => time(),
+                ];
 
-        if ($User != null && (Hash :: check(($loginValues-> password),($User -> Password))) && (($User -> verifystatus)==1))
+                $tokenValue = JWTAuth::fromUser($user, $payload);
 
-        {
-            //login Passsed
-            //token creation
-            $tokenValue = JWTAuth::fromUser($User);
+                // Calculate the expiration minutes
+                $expires_at = (now()->addHours(6))->addMinutes(10);
+                $currentDateTime = now()->addHours(6);
 
-            // Calculate the expiration minutes
-            $expires_at = (now()->addHours(6))->addMinutes(10);
-            $currentDateTime = now()->addHours(6);
+                // Store the token in the tokens table
+                $token = authtoken::create([
+                    'token' => $tokenValue,
+                    'created_at' => $currentDateTime,
+                    'expires_at' => $expires_at,
+                    'user_id' => $user->id,
+                ]);
 
-            // Store the token in the tokens table
-            $token = authtoken::create([
-                'token' => $tokenValue,
-                'created_at' => $currentDateTime,
-                'expires_at' => $expires_at,
-                'user_id' => $User->id,
-            ]);
+                $cookie = cookie('jwt', $tokenValue, 10);
+
+                return response()->json([
+                    'user' => $user,
+                    'token' => $tokenValue,
+                ])->withCookie($cookie);
+            }
+
+            //email not verified yet
+            elseif (($user->verifystatus) == 0) {
+                return response()->json([
+                    'message' => 'verify your email before login'
+                ]);
+            }
+
+            else {
+                return response()->json([
+                    'message' => 'incorrect password'
+                ]);
+            }
+        } else {
             return response()->json([
-                'user' => $User,
-                'token' => $token,
+                'message' => 'email does not exist'
             ]);
-        }
-
-        elseif (($User -> verifystatus) == 0)
-        {
-            $Error = [
-                'message' => 'ID is not verified'
-            ];
-            return response()->json($Error);
-        }
-        
-        else
-        {
-            //Login failed
-            $Error = [
-                'message' => 'Wrong Login Credentials'
-            ];
-            return response()->json($Error);
         }
     }
+
+    //Function for logout
+    public function logout(Request $request)
+    {
+        $token = $request->bearerToken();
+
+        //delete token from database
+        $this->destroyToken($token);
+
+        if ($request->hasCookie('jwt')) {
+            $cookie = Cookie::forget('jwt');
+
+            return response()->json([
+                'message' => 'logged out successfully'
+            ])->withCookie($cookie);
+        } else {
+            return response()->json([
+                'message' => 'logged out successfully'
+            ]);
+        }
+    }
+
+    public function destroyToken($token)
+    {
+        $tokenRec = authtoken::where('token', $token)->first();
+        $tokenRec->delete();
+    }
+
 }

@@ -81,7 +81,7 @@ class DoctorRegistrationController extends Controller
         // Check if validation fails
         if ($validationCheck->fails()) 
         {
-            return response()->json(['errors' => $validationCheck->errors()]);
+            return response()->json(['errors' => $validationCheck->errors()], 422);
         }
 
         $newuser = new User([

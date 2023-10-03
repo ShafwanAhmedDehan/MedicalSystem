@@ -29,10 +29,11 @@ class DoctorTableData extends Seeder
             'General Surgeon',
         ];
         $visitingDays = [
-            'sun mon',
+
             'fri',
             'sat',
             'sat sun',
+            'sun mon',
             'mon tue',
             'tue wed',
             'wed thu',
@@ -53,7 +54,12 @@ class DoctorTableData extends Seeder
             '2:00 PM - 6:00 PM',
             '4:00 PM - 8:00 PM',
             '6:00 PM - 10:00 PM',
-
+            '8:00 AM - 12:00 PM',
+            '10:00 AM - 2:00 PM',
+            '12:00 PM - 4:00 PM',
+            '2:00 PM - 6:00 PM',
+            '4:00 PM - 8:00 PM',
+            '6:00 PM - 10:00 PM',
         ];
 
         for ($i = 0; $i < 10; $i++) {
@@ -62,7 +68,7 @@ class DoctorTableData extends Seeder
                 'hospitalid' => $i + 1, // Adjust the hospitalid as needed
                 'visitingDay'=> $visitingDays[$i],
                 'patientcount'=> $patientCounts[array_rand($patientCounts)],
-                'visitingTime'=> $visitingTimes[array_rand($visitingTimes)],
+                'visitingTime'=> $visitingTimes[$i],//$visitingTimes[array_rand($visitingTimes)],
                 'uid' => 11 + $i,
                 'created_at' => now(),
                 'updated_at' => now(),

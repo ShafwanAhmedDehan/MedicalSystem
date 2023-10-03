@@ -3,9 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Models\User;
+use App\Models\authtoken;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\authtoken;
 
 
 class CheckTokenValidity
@@ -35,8 +36,8 @@ class CheckTokenValidity
         {
             return response()->json(['error' => 'invalid token']);
         }
-    
-        if ($tokenRecord->expires_at < (now()->addHours(6))) 
+
+        if ($tokenRecord->expires_at < (now()->addHours(6)))
         {
             $this->destroyToken($tokenRecord);
             return response()->json(['error' => 'token has expired']);

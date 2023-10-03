@@ -5,21 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class doctor extends Model
+class appointment extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'specialization',
-        'visitingDay',
-        'hospitalid',
-        'uid',
-        'visitingTime',
-        'patientcount'
+        'patient_name',
+        'patient_id',
+        'doctor_id',
+        'hospital_id',
+        'day_of_week',
+        'date_of_appointment',
+        'doctor_visiting_time'
     ];
 
 
-    /**
+     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
@@ -28,4 +29,5 @@ class doctor extends Model
         'created_at',
         'updated_at'
     ];
+
 }

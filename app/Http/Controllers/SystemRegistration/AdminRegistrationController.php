@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers\SystemRegistration;
 
+use App\Models\user;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\doctor;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
-class DoctorRegistrationController extends Controller
+class AdminRegistrationController extends Controller
 {
-    //This controller for Doctor registration
-    function CreateDoctor(Request $DoctorData)
+    function CreateAdmin(Request $AdminData)
     {
         //Validation Message
         $validationMessages = [
@@ -54,11 +51,7 @@ class DoctorRegistrationController extends Controller
             'confirm_password.min'=>'Please enter a Confirm Password with minimum 8 characters',
             'confirm_password.max'=>'Please enter a Confirm Password under 100 character',
             'confirm_password.regex'=>'Confirm Password must contain at least one uppercase, one lowercase letter, one number and one special character',
-            'confirm_password.same'=>'Password and Confirm Password does not match',
-
-            'specialization.required' => 'Please enter a Specialization',
-
-            'hospitalid.required' => 'Please enter hospital id.'
+            'confirm_password.same'=>'Password and Confirm Password does not match'
 
         ];
 
@@ -66,64 +59,42 @@ class DoctorRegistrationController extends Controller
         $rules = [
             'firstName'=>"required|string|max:100|regex:/^([a-zA-Z',.-]+( [a-zA-Z',.-]+)*)$/",
             'lastName'=>"required|string|max:100|regex:/^([a-zA-Z',.-]+( [a-zA-Z',.-]+)*)$/",
-            'phone' => 'required|digits:11|unique:users,phone|regex:/^(01[3456789][0-9]{8})$/', 
+            'phone' => 'required|digits:11|unique:users,phone|regex:/^(01[3456789][0-9]{8})$/',
             'gender' => 'required|string|max:10',
             'email'=>'required|email|max:100|unique:users,email',
             'address'=>'required|string|max:100',
             'password'=>'required|min:8|max:100|regex:/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,})$/',
-            'confirm_password'=>'required|min:8|max:100|regex:/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,})$/|same:password',
-            'specialization' => 'required',
-            'hospitalid' => 'required'
+            'confirm_password'=>'required|min:8|max:100|regex:/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,})$/|same:password'
         ];
 
-        $validationCheck = Validator::make($DoctorData->all(), $rules, $validationMessages);
+        $validationCheck = Validator::make($AdminData->all(), $rules, $validationMessages);
 
         // Check if validation fails
-        if ($validationCheck->fails()) 
+        if ($validationCheck->fails())
         {
-            return response()->json(['errors' => $validationCheck->errors()], 422);
+            return response()->json(['errors' => $validationCheck->errors()]);
         }
 
         $newuser = new User([
-            'first_name' => $DoctorData->input('firstName'),
-            'last_name' => $DoctorData->input('lastName'),
-            'phone' => $DoctorData->input('phone'),
-            'gender' => $DoctorData->input('gender'),
-            'email' => $DoctorData->input('email'),
-            'address' => $DoctorData->input('address'),
+            'first_name' => $AdminData->input('firstName'),
+            'last_name' => $AdminData->input('lastName'),
+            'phone' => $AdminData->input('phone'),
+            'gender' => $AdminData->input('gender'),
+            'email' => $AdminData->input('email'),
+            'address' => $AdminData->input('address'),
             'verifystatus' => 1,
-            'password' => Hash::make($DoctorData->input('password')),
-            'role' => 2,
+            'password' => Hash::make($AdminData->input('password')),
+            'role' => 3,
         ]);
 
-        if ($newuser->save()) 
+        if ($newuser->save())
         {
-            $Duid = $newuser -> id;
-            //doctor info inset in doctor table
-            $newDoctor = new doctor([
-                'specialization' => $DoctorData->input('specialization'),
-                'hospitalid' => $DoctorData->input('hospitalid'),
-                'uid' => $Duid
+            // Insertion was successful
+            return response()->json([
+                'user' => $newuser
             ]);
-
-            if($newDoctor -> save())
-            {
-                // Insertion was successful
-                return response()->json([
-                    'user' => $newuser,
-                    'doctor' => $newDoctor,
-                ]);
-            }
-            else
-            {
-                // Insertion failed
-                $Error = [
-                    'message' => 'Doctor table registration failed'
-                ];
-                return response()->json($Error);   
-            }
-        } 
-        else 
+        }
+        else
         {
             // Insertion failed
             $Error = [

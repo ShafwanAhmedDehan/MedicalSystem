@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class NotificationController extends Controller
+class PhoneNotificationController extends Controller
 {
     //send SMS notification
     function SendSMS($id)

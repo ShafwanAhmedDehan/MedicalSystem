@@ -11,7 +11,7 @@ use App\Http\Controllers\SystemLogin\LoginController;
 use App\Http\Controllers\Notify\NotificationController;
 use App\Http\Controllers\Patient\PatientInfoController;
 use App\Http\Controllers\Appointment\AppointmentController;
-use App\Http\Controllers\Notification\NotificationController;
+use App\Http\Controllers\Notification\PhoneNotificationController;
 use App\Http\Controllers\SystemRegistration\AdminRegistrationController;
 use App\Http\Controllers\SystemVerification\EmailVerificationController;
 use App\Http\Controllers\SystemRegistration\DoctorRegistrationController;
@@ -64,7 +64,7 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route::get("view/appointment/{did}", [AppointmentController::class, 'getAppointmentByDoctor']);
     Route::delete("delete/appointment/{aid}", [AppointmentController::class, 'deleteAppointmentById']);
     Route::get("get/appointment/all", [AppointmentController::class, 'showAllAppointments']);
-    Route::post("sms/notification/{id}", [NotificationController::class, 'SendSMS']);
+    Route::post("sms/notification/{id}", [PhoneNotificationController::class, 'SendSMS']);
     Route::get("view/patient/appointment/{pid}", [AppointmentController::class, 'showAllAppointmentsByPatient']);
 
 
@@ -73,9 +73,9 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route::get("admin/about/{uid}", [AdminController::class, 'GetAdminById']);
     Route::put("admin/update", [AdminController::class, 'updateAdmin']);
     Route::delete("admin/delete/{uid}", [AdminController::class, 'deleteAdminById']);
-  
+
     Route::post('/notification/{id}', [NotificationController::class, 'patientNotification']);
-  
+
 });
 
 

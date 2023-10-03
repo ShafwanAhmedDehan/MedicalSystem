@@ -46,6 +46,16 @@ class UserTableData extends Seeder
             'Firoza', 'Harun', 'Shama', 'Nasir', 'Amina',
             'Moin', 'Tarannum', 'Tariq', 'Nadia', 'Ali',
             'Shehla', 'Ashraf', 'Aisha', 'Shafiq', 'Sabina',
+            'Ahmed', 'Khan', 'Rahman', 'Islam', 'Ali',
+            'Hassan', 'Chowdhury', 'Haque', 'Akhtar', 'Choudhury',
+            'Hussain', 'Siddique', 'Hossain', 'Das', 'Malik',
+            'Karim', 'Chowdhury', 'Mahmood', 'Ahmed', 'Khanam',
+            'Amin', 'Yasmin', 'Rahman', 'Khan', 'Akter',
+            'Uddin', 'Choudhury', 'Islam', 'Hossain', 'Ali',
+            'Hasan', 'Chowdhury', 'Ahmed', 'Karim', 'Begum',
+            'Khan', 'Rahman', 'Uddin', 'Choudhury', 'Hossain',
+            'Siddiqui', 'Hasan', 'Islam', 'Rahman', 'Ali',
+            'Chowdhury', 'Ahmed', 'Khanam', 'Akhtar', 'Begum',
         ];
 
         $lastNames = [
@@ -59,6 +69,16 @@ class UserTableData extends Seeder
             'Khan', 'Rahman', 'Uddin', 'Choudhury', 'Hossain',
             'Siddiqui', 'Hasan', 'Islam', 'Rahman', 'Ali',
             'Chowdhury', 'Ahmed', 'Khanam', 'Akhtar', 'Begum',
+            'Nafis', 'Fatima', 'Riaz', 'Ayesha', 'Farid',
+            'Nasrin', 'Shahid', 'Nusrat', 'Kamal', 'Rifi',
+            'Shadhin', 'Sultana', 'Shahin', 'Anika', 'Hasan',
+            'Fariha', 'Zahir', 'Sana', 'Arif', 'Meher',
+            'Akhtar', 'Laila', 'Imran', 'Sumaiya', 'Abid',
+            'Nabeela', 'Rafiq', 'Tasnim', 'Masud', 'Shabnam',
+            'Farhan', 'Rubina', 'Javed', 'Yasmeen', 'Amin',
+            'Firoza', 'Harun', 'Shama', 'Nasir', 'Amina',
+            'Moin', 'Tarannum', 'Tariq', 'Nadia', 'Ali',
+            'Shehla', 'Ashraf', 'Aisha', 'Shafiq', 'Sabina',
         ];
 
 
@@ -125,7 +145,7 @@ class UserTableData extends Seeder
         }
 
         //verified patients
-        for ($i = 1; $i < 11; $i++) {
+        for ($i = 1; $i < 41; $i++) {
             $firstName = $firstNames[$i+23];
             $lastName = $lastNames[$i+23];
             $address = $addresses[$i % $numAddresses];
@@ -147,7 +167,7 @@ class UserTableData extends Seeder
 
 
         //unverified patients
-        for ($i = 11; $i < 21; $i++) {
+        for ($i = 41; $i < 51; $i++) {
             $firstName = $firstNames[$i+23];
             $lastName = $lastNames[$i+23];
             $address = $addresses[$i % $numAddresses];

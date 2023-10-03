@@ -19,7 +19,7 @@ class HospitalController extends Controller
         //get the hospital of the admin
         $hospital = hospital::where('adminid', $adminID)
             ->select('id', 'hospitalname', 'location')
-            ->get();
+            ->first();
 
         if ($hospital->isEmpty()) {
             return response()->json(['message' => 'No hospital found.']);

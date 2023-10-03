@@ -74,8 +74,6 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route::put("admin/update", [AdminController::class, 'updateAdmin']);
     Route::delete("admin/delete/{uid}", [AdminController::class, 'deleteAdminById']);
 
+    Route::post('search/active', [SearchController::class, 'ActiveSearch']);
     Route::post('/notification/{id}', [NotificationController::class, 'patientNotification']);
-
 });
-
-

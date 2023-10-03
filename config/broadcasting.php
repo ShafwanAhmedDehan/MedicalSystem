@@ -45,6 +45,10 @@ return [
             ],
             'client_options' => [
                 // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html
+                'ssl' => [
+                    'verify_peer' => true,
+                    'cafile' => 'C:/xampp/htdocs/mediapp/MedicalSystem/cacert.pem', // Replace with the actual path to the downloaded certificate bundle
+                ],
             ],
         ],
 

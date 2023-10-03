@@ -8,6 +8,7 @@ use App\Http\Controllers\Doctor\DoctorController;
 use App\Http\Controllers\Search\SearchController;
 use App\Http\Controllers\Hospital\HospitalController;
 use App\Http\Controllers\SystemLogin\LoginController;
+use App\Http\Controllers\Notify\NotificationController;
 use App\Http\Controllers\Patient\PatientInfoController;
 use App\Http\Controllers\Appointment\AppointmentController;
 use App\Http\Controllers\Notification\NotificationController;
@@ -72,7 +73,9 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route::get("admin/about/{uid}", [AdminController::class, 'GetAdminById']);
     Route::put("admin/update", [AdminController::class, 'updateAdmin']);
     Route::delete("admin/delete/{uid}", [AdminController::class, 'deleteAdminById']);
-
-
+  
+    Route::post('/notification/{id}', [NotificationController::class, 'patientNotification']);
+  
 });
+
 

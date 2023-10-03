@@ -70,16 +70,16 @@ class AppointmentTableData extends Seeder
         $startDate = 'now';
         $endDate = '+10 days';
 
-        for ($i = 1; $i < 11; $i++) {
+        for ($i = 1; $i < 40; $i++) {
             //$firstName = $firstNames[$i];
             //$lastName = $lastNames[$i];
 
 
             DB::table('appointments')->insert([
                 'patient_name' => $firstNames[array_rand($firstNames)] . ' ' . $lastNames[array_rand($lastNames)],
-                'patient_id' => 50 + $i,
-                'doctor_id' => 70 + $i,
-                'hospital_id' => $i,
+                'patient_id' => 21 + $i,
+                'doctor_id' => rand(12, 21),
+                'hospital_id' => rand(1, 10),
                 'day_of_week' => $day_of_weeks[array_rand($day_of_weeks)],
                 'date_of_appointment' => $faker->dateTimeBetween($startDate, $endDate)->format('Y-m-d'),
                 'doctor_visiting_time' => $faker->dateTimeBetween('08:00:00', '22:00:00')->format('H:i:s'), //$doctor_visiting_times[array_rand($doctor_visiting_times)],

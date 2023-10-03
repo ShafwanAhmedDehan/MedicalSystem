@@ -114,4 +114,20 @@ class AppointmentController extends Controller
 
         return response()->json($appointments_list);
     }
+
+    //use the function to get all the appointment history for a patient
+    function showAllAppointmentsByPatient($id)
+    {
+        //get all the appointment by patient id
+        $appointments_list_patient = appointment :: where('patient_id', $id)->get();
+
+        //check appointment have or not
+        if(!$appointments_list_patient)
+        {
+            return response()->json(['message' => 'No appointment found.']);
+        }
+
+        return response()->json($appointments_list_patient);
+
+    }
 }

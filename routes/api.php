@@ -29,12 +29,15 @@ use App\Http\Controllers\SystemRegistration\HospitalRegistrationController;
 |
 */
 
-Route::post("login", [LoginController::class, 'GetLoginInfo']);
-
+Route::post("login", [LoginController::class, 'GetLoginInfo'])->name('login');
+Route::get("/auth/verify-email/{verification_token}", [EmailVerificationController::class, 'verifyEmail'])->name('verify_email');
+Route::post("patient/registration", [PatientRegistrationController::class, 'getRegister']);
 
 //['CheckTokenValidity', 'role:0']
 
 Route::middleware(CheckTokenValidity::class)->group(function () {
+    Route::get("logout", [LoginController::class, 'logout'])->name('logout');
+
     Route::get("patient/all", [PatientInfoController::class, 'getAllPatient']);
     Route::get("patient/about/{uid}", [PatientInfoController::class, 'GetUserById']);
     Route::delete("patient/delete/{uid}", [PatientInfoController::class, 'deletePatientById']);
@@ -73,6 +76,3 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
 
 });
 
-
-Route::post("patient/registration", [PatientRegistrationController::class, 'getRegister']);
-Route::get("/auth/verify-email/{verification_token}", [EmailVerificationController::class, 'verifyEmail'])->name('verify_email');

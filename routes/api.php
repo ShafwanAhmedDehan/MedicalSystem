@@ -76,4 +76,5 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
 
     Route::post('search/active', [SearchController::class, 'ActiveSearch']);
     Route::post('/notification/{id}', [NotificationController::class, 'patientNotification']);
+    
 });

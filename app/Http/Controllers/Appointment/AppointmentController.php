@@ -84,6 +84,7 @@ class AppointmentController extends Controller
         //getting all the appointment of current date
         $appointment_list = appointment::where('doctor_id', '=', $Did)
                             ->where('date_of_appointment', '=', $dateFormatted)
+                            ->where('status', '=', '1')
                             ->get();
 
         return $appointment_list;

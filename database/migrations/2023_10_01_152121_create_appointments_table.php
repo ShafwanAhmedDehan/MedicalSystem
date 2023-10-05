@@ -18,6 +18,7 @@ return new class extends Migration
             $table -> integer('doctor_id');
             $table -> integer('hospital_id');
             $table -> string('day_of_week');
+            $table -> string('status')->default('1');
             $table -> date('date_of_appointment');
             $table->timestamps();
         });

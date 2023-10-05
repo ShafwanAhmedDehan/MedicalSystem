@@ -32,7 +32,7 @@ class PatientInfoController extends Controller
         }
 
         //if user found, return
-        return response()->json([ "user" => $user ], 200);
+        return response()->json([ "user" => $user ]);
     }
 
 

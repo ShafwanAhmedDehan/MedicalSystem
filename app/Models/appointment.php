@@ -15,6 +15,7 @@ class appointment extends Model
         'doctor_id',
         'hospital_id',
         'day_of_week',
+        'status',
         'date_of_appointment',
         'doctor_visiting_time'
     ];
@@ -26,6 +27,7 @@ class appointment extends Model
      * @var array<int, string>
      */
     protected $hidden = [
+        'status',
         'created_at',
         'updated_at'
     ];

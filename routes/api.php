@@ -64,7 +64,7 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route::get("view/appointment/{did}", [AppointmentController::class, 'getAppointmentByDoctor']);
     Route::delete("delete/appointment/{aid}", [AppointmentController::class, 'deleteAppointmentById']);
     Route::get("get/appointment/all", [AppointmentController::class, 'showAllAppointments']);
-    Route::post("sms/notification/{id}", [PhoneNotificationController::class, 'SendSMS']);
+    Route::post("sms/notification/{pid}/{aid}", [PhoneNotificationController::class, 'SendSMS']);
     Route::get("view/patient/appointment/{pid}", [AppointmentController::class, 'showAllAppointmentsByPatient']);
 
 

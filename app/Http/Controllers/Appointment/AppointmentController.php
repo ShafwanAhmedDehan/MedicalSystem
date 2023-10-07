@@ -56,8 +56,7 @@ class AppointmentController extends Controller
                         'doctor_id' => $appointmentData->input('doctor_id'),
                         'hospital_id' => $doctor->hospitalid,
                         'day_of_week' => $convertedweekday,
-                        'date_of_appointment' => $dateFormatted,
-                        'doctor_visiting_time' => $doctor->visitingTime
+                        'date_of_appointment' => $dateFormatted
                     ]);
 
                     return response()->json(

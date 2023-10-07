@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Appointment;
 
 use App\Models\User;
 use App\Models\doctor;
+use App\Models\hospital;
 use App\Models\appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -120,7 +121,13 @@ class AppointmentController extends Controller
     function showAllAppointmentsByPatient($id)
     {
         //get all the appointment by patient id
-        $appointments_list_patient = appointment :: where('patient_id', $id)->get();
+        //$appointments_list_patient = appointment :: where('patient_id', $id)->get();
+        $appointments_list_patient = Appointment::select('appointments.*', 'hospitals.hospitalname as hospital_name', 'users.first_name as doctor_fname', 'users.last_name as doctor_lname')
+                                        ->join('hospitals', 'appointments.hospital_id', '=', 'hospitals.id')
+                                        ->join('users', 'appointments.doctor_id', '=', 'users.id')
+                                        ->where('patient_id', $id)
+                                        ->get();
+
 
         //check appointment have or not
         if(!$appointments_list_patient)

@@ -34,6 +34,7 @@ Route::post("login", [LoginController::class, 'GetLoginInfo'])->name('login');
 Route::get("/auth/verify-email/{verification_token}", [EmailVerificationController::class, 'verifyEmail'])->name('verify_email');
 Route::post("patient/registration", [PatientRegistrationController::class, 'getRegister']);
 
+
 //['CheckTokenValidity', 'role:0']
 
 Route::middleware(CheckTokenValidity::class)->group(function () {

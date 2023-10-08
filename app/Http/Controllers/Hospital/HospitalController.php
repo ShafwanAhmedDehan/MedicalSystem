@@ -133,7 +133,7 @@ class HospitalController extends Controller
         //get the hospital of the admin
         $hospital = hospital::where('id', $hospitalId)
             ->select('id', 'hospitalname', 'location')
-            ->get();
+            ->first();
 
         if (!$hospital) {
             return response()->json(['message' => 'No hospital found.']);

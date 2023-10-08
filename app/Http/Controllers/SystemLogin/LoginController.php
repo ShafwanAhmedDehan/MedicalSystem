@@ -49,24 +49,7 @@ class LoginController extends Controller
             if ((Hash::check(($loginValues->password), ($user->password))) && (($user->verifystatus) == 1)) {
                 //login Passsed
                 //token creation
-                $payload = [
-                    'sub' => $user->id,
-                    'iat' => time(),
-                ];
-
-                $tokenValue = JWTAuth::fromUser($user, $payload);
-
-                // Calculate the expiration minutes
-                $expires_at = (now()->addHours(6))->addMinutes(10);
-                $currentDateTime = now()->addHours(6);
-
-                // Store the token in the tokens table
-                $token = authtoken::create([
-                    'token' => $tokenValue,
-                    'created_at' => $currentDateTime,
-                    'expires_at' => $expires_at,
-                    'user_id' => $user->id,
-                ]);
+                $tokenValue = $this->createToken($user);
 
                 $cookie = cookie('jwt', $tokenValue, 10);
 
@@ -115,6 +98,41 @@ class LoginController extends Controller
             ]);
         }
     }
+
+    public function createToken(User $user)
+    {
+        $payload = [
+            'sub' => $user->id,
+            'iat' => time(),
+        ];
+
+        $tokenValue = JWTAuth::fromUser($user, $payload);
+        $currentDateTime = now()->addHours(6);
+        $expires_at = (now()->addHours(6))->addMinutes(10);
+
+        $token = authtoken::create([
+            'token' => $tokenValue,
+            'created_at' => $currentDateTime,
+            'expires_at' => $expires_at,
+            'user_id' => $user->id,
+        ]);
+
+        while (!$token) {
+            $tokenValue = JWTAuth::fromUser($user, $payload);
+            $currentDateTime = now()->addHours(6);
+            $expires_at = (now()->addHours(6))->addMinutes(10);
+
+            $token = authtoken::create([
+                'token' => $tokenValue,
+                'created_at' => $currentDateTime,
+                'expires_at' => $expires_at,
+                'user_id' => $user->id,
+            ]);
+        }
+
+        return $tokenValue;
+    }
+    
 
     public function destroyToken($token)
     {

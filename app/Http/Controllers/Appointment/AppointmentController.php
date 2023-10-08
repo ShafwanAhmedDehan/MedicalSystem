@@ -56,7 +56,6 @@ class AppointmentController extends Controller
                         'hospital_id' => $doctor->hospitalid,
                         'day_of_week' => $convertedweekday,
                         'date_of_appointment' => $dateFormatted,
-                        'doctor_visiting_time' => $doctor->visitingTime
                     ]);
 
                     return response()->json(
@@ -119,15 +118,24 @@ class AppointmentController extends Controller
     function showAllAppointmentsByPatient($id)
     {
         //get all the appointment by patient id
-        $appointments_list_patient = appointment :: where('patient_id', $id)->get();
+
+        //$appointments_list_patient = appointment :: where('patient_id', $id)->get();
+
+        $appointments_list_patient = Appointment::select('appointments.*', 'hospitals.hospitalname as hospital_name', 'users.first_name as doctor_fname', 'users.last_name as doctor_lname')
+        ->join('hospitals', 'appointments.hospital_id', '=', 'hospitals.id')
+        ->join('users', 'appointments.doctor_id', '=', 'users.id')
+        ->where('patient_id', $id)
+        ->get();
+
+
+
+
 
         //check appointment have or not
-        if(!$appointments_list_patient)
-        {
+        if (!$appointments_list_patient) {
             return response()->json(['message' => 'No appointment found.']);
         }
 
         return response()->json($appointments_list_patient);
-
     }
 }

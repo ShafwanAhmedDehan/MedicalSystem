@@ -34,6 +34,7 @@ Route::post("login", [LoginController::class, 'GetLoginInfo'])->name('login');
 Route::get("/auth/verify-email/{verification_token}", [EmailVerificationController::class, 'verifyEmail'])->name('verify_email');
 Route::post("patient/registration", [PatientRegistrationController::class, 'getRegister']);
 
+
 //['CheckTokenValidity', 'role:0']
 
 Route::middleware(CheckTokenValidity::class)->group(function () {
@@ -67,7 +68,7 @@ Route::middleware(CheckTokenValidity::class)->group(function () {
     Route::get("view/appointment/{did}", [AppointmentController::class, 'getAppointmentByDoctor']);
     Route::delete("delete/appointment/{aid}", [AppointmentController::class, 'deleteAppointmentById']);
     Route::get("get/appointment/all", [AppointmentController::class, 'showAllAppointments']);
-    Route::post("sms/notification/{id}", [PhoneNotificationController::class, 'SendSMS']);
+    Route::post("sms/notification/{pid}/{aid}", [PhoneNotificationController::class, 'SendSMS']);
     Route::get("view/patient/appointment/{pid}", [AppointmentController::class, 'showAllAppointmentsByPatient']);
 
 

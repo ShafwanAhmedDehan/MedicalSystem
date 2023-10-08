@@ -3,23 +3,29 @@
 namespace App\Http\Controllers\Notification;
 
 use App\Models\User;
+use App\Models\appointment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class PhoneNotificationController extends Controller
 {
     //send SMS notification
-    function SendSMS($id)
+    function SendSMS($pid, $aid)
     {
-        $user = User::where('id', $id)->first();
+        $user = User::where('id', $pid)->first();
 
-        //check user found or not
-        if(!$user)
+        $appoinment = appointment :: where('id', $aid)->first();
+        //check user and appoinment found or not
+        if(!$user && !$appoinment)
         {
             return response()->json(['message' => 'No user found.']);
         }
         else
         {
+            $appoinment->update([
+                'status' => 0,
+            ]);
+
             //using sms sent api from greenweb.com
             $to = $user->phone;
             $token = "838611002716963092278bc4b2c87b5ba8ba230269fb6a1b7d88";  // Token given for my id in greenweb.com
@@ -44,7 +50,7 @@ class PhoneNotificationController extends Controller
             $smsresult = curl_exec($ch);
 
             //Result
-            return response()->json(['message' => 'SMS send Successfully.']);
+            return response()->json(['message' => 'SMS send Successfully and Appoinment Status Changed.']);
 
         }
 

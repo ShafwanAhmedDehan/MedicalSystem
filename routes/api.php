@@ -38,6 +38,9 @@ Route::post("patient/registration", [PatientRegistrationController::class, 'getR
 //['CheckTokenValidity', 'role:0']
 
 Route::middleware(CheckTokenValidity::class)->group(function () {
+    Route::get("isloggedin", function () {
+        return 'valid';
+    });
     Route::get("logout", [LoginController::class, 'logout'])->name('logout');
 
     Route::get("patient/all", [PatientInfoController::class, 'getAllPatient']);

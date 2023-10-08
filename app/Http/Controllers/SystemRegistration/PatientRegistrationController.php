@@ -26,12 +26,12 @@ class PatientRegistrationController extends Controller
         $rules = [
             'firstName' => 'required|string|max:100|regex:/^([a-zA-Z\',.-]+( [a-zA-Z\',.-]+)*)$/',
             'lastName' => 'required|string|max:100|regex:/^([a-zA-Z\',.-]+( [a-zA-Z\',.-]+)*)$/',
-            'phone' => 'required|digits:11|unique:users,phone|regex:/^(01[3456789][0-9]{8})$/',
-            'gender' => 'required|string|max:10',
+            'phone' => 'required',
+            'gender' => 'required|string',
             'email' => 'required|email|max:100|unique:users,email',
             'address' => 'required|string|max:100',
-            'password' => 'required|min:8|max:100|regex:/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,})$/',
-            'confirm_password' => 'required|min:8|max:100|regex:/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,})$/|same:password',
+            'password' => 'required|min:8|max:100|regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[~!.@>#$%^&*+-_<?])[a-zA-Z\d~!.@>#$%^&*+-_<?]{8,}$/',
+            'confirm_password' => 'required|min:8|max:100|regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[~!.@>#$%^&*+-_<?])[a-zA-Z\d~!.@>#$%^&*+-_<?]{8,}$/|same:password',
         ];
 
         // Validation Messages
@@ -47,9 +47,9 @@ class PatientRegistrationController extends Controller
             'lastName.regex' => 'Please enter a valid Last Name.',
 
             'phone.required' => 'Please enter your Phone Number.',
-            'phone.digits' => 'Please enter a valid 11-digit Phone Number.',
-            'phone.unique' => 'This Phone Number is already registered. If you have an account, please log in.',
-            'phone.regex' => 'Please enter a valid Phone Number starting with 01.',
+            // 'phone.digits' => 'Please enter a valid 11-digit Phone Number.',
+            // 'phone.unique' => 'This Phone Number is already registered. If you have an account, please log in.',
+            // 'phone.regex' => 'Please enter a valid Phone Number starting with 01.',
 
             'gender.required' => 'Please select your Gender.',
             'gender.string' => 'Gender must be a string.',
@@ -114,13 +114,14 @@ class PatientRegistrationController extends Controller
                     $responseMessage = 'Registration successful. Please verify your email.';
                 } else {
                     // Email sending failed
-                    $responseMessage = 'Something went wrong! Registration is successful but Validation Email is not sent.';
+                    $user->delete();
+                    $emailVerification->delete();
+                    $responseMessage = 'Registration is successful but Validation Email is not sent.';
                 }
 
                 // Return a JSON response with the appropriate message and user information
                 return response()->json([
                     'message' => $responseMessage,
-                    'user' => $user,
                 ]);
             }
         }

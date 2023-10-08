@@ -129,12 +129,10 @@ class AppointmentController extends Controller
 
 
         //check appointment have or not
-        if(!$appointments_list_patient)
-        {
+        if (!$appointments_list_patient) {
             return response()->json(['message' => 'No appointment found.']);
         }
 
         return response()->json($appointments_list_patient);
-
     }
 }

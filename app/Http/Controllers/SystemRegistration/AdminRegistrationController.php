@@ -25,9 +25,9 @@ class AdminRegistrationController extends Controller
             'lastName.regex'=>'Please enter a valid Last Name',
 
             'phone.required'=>'Please enter Phone Number',
-            'phone.digits'=>'Please enter a valid Phone Number.',
-            'phone.unique'=>'Nubmer exists. If you already have an account, Please Login',
-            'phone.regex'=>'Please enter a valid Phone Number.',
+            // 'phone.digits'=>'Please enter a valid Phone Number.',
+            // 'phone.unique'=>'Nubmer exists. If you already have an account, Please Login',
+            // 'phone.regex'=>'Please enter a valid Phone Number.',
 
             'gender.required'=>'Please select Gender',
             'gender.string'=>'Gender must be a string',
@@ -59,12 +59,12 @@ class AdminRegistrationController extends Controller
         $rules = [
             'firstName'=>"required|string|max:100|regex:/^([a-zA-Z',.-]+( [a-zA-Z',.-]+)*)$/",
             'lastName'=>"required|string|max:100|regex:/^([a-zA-Z',.-]+( [a-zA-Z',.-]+)*)$/",
-            'phone' => 'required|digits:11|unique:users,phone|regex:/^(01[3456789][0-9]{8})$/',
+            'phone' => 'required',
             'gender' => 'required|string|max:10',
             'email'=>'required|email|max:100|unique:users,email',
             'address'=>'required|string|max:100',
-            'password'=>'required|min:8|max:100|regex:/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,})$/',
-            'confirm_password'=>'required|min:8|max:100|regex:/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,})$/|same:password'
+            'password'=>'required|min:8|max:100|regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[~!.@>#$%^&*+-_<?])[a-zA-Z\d~!.@>#$%^&*+-_<?]{8,}$/',
+            'confirm_password'=>'required|min:8|max:100|regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[~!.@>#$%^&*+-_<?])[a-zA-Z\d~!.@>#$%^&*+-_<?]{8,}$/|same:password'
         ];
 
         $validationCheck = Validator::make($AdminData->all(), $rules, $validationMessages);
